@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <title>填写问卷 - 贷款产品智能匹配</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="container">
+    <div class="card">
+      <div class="title-md" style="margin-bottom: 8px;">企业信息填报</div>
+      <div style="font-size: 13px; color: #999; margin-bottom: 24px;">请如实填写以下信息，我们将为您智能匹配最合适的贷款产品</div>
+
+      <div class="form-item">
+        <div class="form-label"><span class="required">*</span>1. 企业/经营主体名称</div>
+        <input class="form-input" id="company_name" placeholder="请输入企业或经营主体全称" />
+      </div>
+
+      <div class="form-item">
+        <div class="form-label"><span class="required">*</span>2. 经营主体类型</div>
+        <div class="option-group" id="entity_type_group"></div>
+      </div>
+
+      <div class="form-item">
+        <div class="form-label"><span class="required">*</span>3. 所属行业</div>
+        <input class="form-input" id="industry" placeholder="如：制造业、批发零售、科技服务等" />
+      </div>
+
+      <div class="form-item">
+        <div class="form-label"><span class="required">*</span>4. 企业成立年份</div>
+        <select class="form-input" id="founded_year">
+          <option value="">请选择成立年份</option>
+        </select>
+      </div>
+
+      <div class="form-item">
+        <div class="form-label"><span class="required">*</span>5. 上一年度营业收入（万元）</div>
+        <input class="form-input" type="digit" id="annual_revenue" placeholder="请输入营业收入金额" />
+      </div>
+
+      <div class="form-item">
+        <div class="form-label"><span class="required">*</span>6. 计划申请融资金额（万元）</div>
+        <input class="form-input" type="digit" id="loan_amount" placeholder="请输入融资金额" />
+      </div>
+
+      <div class="form-item">
+        <div class="form-label"><span class="required">*</span>7. 计划贷款使用年限（年）</div>
+        <input class="form-input" type="digit" id="loan_term" placeholder="请输入贷款使用年限" />
+      </div>
+
+      <div class="form-item">
+        <div class="form-label"><span class="required">*</span>8. 可接受的贷款类型（可多选）</div>
+        <div class="option-group" id="guarantee_types_group"></div>
+        <div class="selected-hint" id="guarantee_hint" style="display:none;"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 底部按钮 -->
+  <div class="bottom-nav">
+    <div class="nav-right" style="flex:1; padding:0;">
+      <button class="btn-primary" id="submit_btn" onclick="submitForm()">开始智能匹配</button>
+    </div>
+  </div>
+
+  <script src="js/products.js"></script>
+  <script src="js/matcher.js"></script>
+  <script src="js/common.js"></script>
+  <script src="js/questionnaire.js"></script>
+</body>
+</html>
