@@ -68,10 +68,7 @@
     // 页面加载时初始化 CloudBase 并记录访问量
     document.addEventListener('DOMContentLoaded', function() {
       if (window.CloudDB) {
-        window.CloudDB.init();
-        window.CloudDB.signInAnonymously(function() {
-          window.CloudDB.addVisitor();
-        });
+        window.CloudDB.addVisitor();
       }
     });
 
