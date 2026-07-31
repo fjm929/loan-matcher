@@ -65,7 +65,7 @@ var OPTIONS = {
     { value: '1年以内', label: 'A、1年以内', num: 0.5 },
     { value: '1年-3年', label: 'B、1年-3年（不含）', num: 2 },
     { value: '3年-5年', label: 'C、3年-5年（不含）', num: 4 },
-    { value: '5年以上', label: 'D、5年以上（不含）', num: 6 }
+    { value: '5年以上', label: 'D、5年以上', num: 6 }
   ],
   // 第8题：可接受的贷款类型（多选）
   guaranteeTypes: [
