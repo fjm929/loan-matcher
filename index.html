@@ -59,10 +59,22 @@
     </div>
   </div>
 
+  <script src="https://static.cloudbase.tencent.com/js/sdk/cloudbase.js"></script>
   <script src="js/products.js"></script>
   <script src="js/matcher.js"></script>
   <script src="js/common.js"></script>
+  <script src="js/cloudbase.js"></script>
   <script>
+    // 页面加载时初始化 CloudBase 并记录访问量
+    document.addEventListener('DOMContentLoaded', function() {
+      if (window.CloudDB) {
+        window.CloudDB.init();
+        window.CloudDB.signInAnonymously(function() {
+          window.CloudDB.addVisitor();
+        });
+      }
+    });
+
     function startTest() {
       Store.remove('formData');
       Store.remove('matchResult');

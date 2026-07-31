@@ -14,47 +14,62 @@
       <div class="title-md" style="margin-bottom: 8px;">企业信息填报</div>
       <div style="font-size: 13px; color: #999; margin-bottom: 24px;">请如实填写以下信息，我们将为您智能匹配最合适的贷款产品</div>
 
+      <!-- 第1题：企业/经营主体名称（填空） -->
       <div class="form-item">
-        <div class="form-label"><span class="required">*</span>1. 企业/经营主体名称</div>
+        <div class="form-label"><span class="required">*</span>1. 企业 / 经营主体名称</div>
         <input class="form-input" id="company_name" placeholder="请输入企业或经营主体全称" />
       </div>
 
+      <!-- 第2题：是否企业申请贷款（单选） -->
       <div class="form-item">
-        <div class="form-label"><span class="required">*</span>2. 经营主体类型</div>
-        <div class="option-group" id="entity_type_group"></div>
+        <div class="form-label"><span class="required">*</span>2. 是否企业申请贷款？</div>
+        <div class="option-group" id="is_enterprise_group"></div>
       </div>
 
+      <!-- 第3题：所属行业（单选+S项填空） -->
       <div class="form-item">
-        <div class="form-label"><span class="required">*</span>3. 所属行业</div>
-        <input class="form-input" id="industry" placeholder="如：制造业、批发零售、科技服务等" />
+        <div class="form-label"><span class="required">*</span>3. 企业（个体工商户）所属行业</div>
+        <div class="option-group" id="industry_group"></div>
+        <div class="form-item" id="industry_other_wrap" style="display:none; margin-top:12px; margin-bottom:0;">
+          <input class="form-input" id="industry_other" placeholder="请填写具体行业" />
+        </div>
       </div>
 
+      <!-- 第4题：成立年限（单选） -->
       <div class="form-item">
-        <div class="form-label"><span class="required">*</span>4. 企业成立年份</div>
-        <select class="form-input" id="founded_year">
-          <option value="">请选择成立年份</option>
-        </select>
+        <div class="form-label"><span class="required">*</span>4. 企业（个体工商户）成立年限是：</div>
+        <div class="option-group" id="years_group"></div>
       </div>
 
+      <!-- 第5题：上一年度营业收入（单选） -->
       <div class="form-item">
-        <div class="form-label"><span class="required">*</span>5. 上一年度营业收入（万元）</div>
-        <input class="form-input" type="digit" id="annual_revenue" placeholder="请输入营业收入金额" />
+        <div class="form-label"><span class="required">*</span>5. 上一年度营业收入：</div>
+        <div class="option-group" id="revenue_group"></div>
       </div>
 
+      <!-- 第6题：计划申请融资金额（单选） -->
       <div class="form-item">
-        <div class="form-label"><span class="required">*</span>6. 计划申请融资金额（万元）</div>
-        <input class="form-input" type="digit" id="loan_amount" placeholder="请输入融资金额" />
+        <div class="form-label"><span class="required">*</span>6. 计划申请融资金额：</div>
+        <div class="option-group" id="loan_amount_group"></div>
       </div>
 
+      <!-- 第7题：计划贷款使用年限（单选） -->
       <div class="form-item">
-        <div class="form-label"><span class="required">*</span>7. 计划贷款使用年限（年）</div>
-        <input class="form-input" type="digit" id="loan_term" placeholder="请输入贷款使用年限" />
+        <div class="form-label"><span class="required">*</span>7. 计划贷款使用年限：</div>
+        <div class="option-group" id="loan_term_group"></div>
       </div>
 
+      <!-- 第8题：可接受的贷款类型（多选） -->
       <div class="form-item">
-        <div class="form-label"><span class="required">*</span>8. 可接受的贷款类型（可多选）</div>
+        <div class="form-label"><span class="required">*</span>8. 可接受的贷款类型（可多选）：</div>
         <div class="option-group" id="guarantee_types_group"></div>
         <div class="selected-hint" id="guarantee_hint" style="display:none;"></div>
+      </div>
+
+      <!-- 第9题：是否为科技型企业（单选） -->
+      <div class="form-item">
+        <div class="form-label"><span class="required">*</span>9. 是否为科技型企业：</div>
+        <div class="option-group" id="is_tech_group"></div>
       </div>
     </div>
   </div>
@@ -66,9 +81,11 @@
     </div>
   </div>
 
+  <script src="https://static.cloudbase.tencent.com/js/sdk/cloudbase.js"></script>
   <script src="js/products.js"></script>
   <script src="js/matcher.js"></script>
   <script src="js/common.js"></script>
+  <script src="js/cloudbase.js"></script>
   <script src="js/questionnaire.js"></script>
 </body>
 </html>
