@@ -434,12 +434,30 @@ function submitForm() {
     };
     Store.set('matchResult', matchResultData);
 
-    // 保存数据到云端（不阻塞页面跳转）
-    if (window.CloudDB) {
-      window.CloudDB.addSubmission(formData, matchResultData);
-    }
+    // 保存数据到云端，等保存完成或超时后再跳转
+    var saved = false;
+    var jumpTimer = null;
 
-    window.location.href = 'result.html';
+    var doJump = function() {
+      if (jumpTimer) {
+        clearTimeout(jumpTimer);
+        jumpTimer = null;
+      }
+      window.location.href = 'result.html';
+    };
+
+    // 最多等 3 秒，不管成功与否都跳转
+    jumpTimer = setTimeout(doJump, 3000);
+
+    if (window.CloudDB) {
+      window.CloudDB.addSubmission(formData, matchResultData, function(ok) {
+        console.log('数据保存结果:', ok);
+        saved = true;
+        doJump();
+      });
+    } else {
+      doJump();
+    }
   } catch (e) {
     console.error('匹配出错:', e);
     showToast('匹配失败: ' + (e.message || '请重试'));
