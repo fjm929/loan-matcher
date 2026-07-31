@@ -37,19 +37,101 @@ function parseAmount(amountStr) {
 function parseTerm(termStr) {
   if (!termStr) return 0;
   var s = String(termStr).replace(/\s/g, '');
-  var nums = s.match(/(\d+(?:\.\d+)?)/g);
-  if (!nums) return 99;
-
-  var maxVal = 0;
-  for (var i = 0; i < nums.length; i++) {
-    var n = nums[i];
-    var val = parseFloat(n);
-    if (s.indexOf('月') > -1) {
-      val = val / 12;
+  
+  // 中文数字映射
+  var cnNums = { '一': 1, '二': 2, '两': 2, '三': 3, '四': 4, '五': 5, '六': 6, '七': 7, '八': 8, '九': 9, '十': 10, '半': 0.5 };
+  
+  // 把中文数字替换成阿拉伯数字（如 "一年" -> "1年"）
+  for (var cn in cnNums) {
+    if (cnNums.hasOwnProperty(cn)) {
+      // 处理 "十年" -> "10年"，"十二个月" -> "12个月"
+      s = s.replace(new RegExp(cn, 'g'), String(cnNums[cn]));
     }
-    if (val > maxVal) maxVal = val;
   }
-  return maxVal > 0 ? maxVal : 99;
+  // 处理 "十二"、"二十" 等组合（简单处理）
+  s = s.replace(/10([1-9])/g, function(m, n) { return String(10 + parseInt(n)); });
+  s = s.replace(/([2-9])10/g, function(m, n) { return String(parseInt(n) * 10); });
+  
+  var allTerms = [];
+  
+  // 按句子分隔符拆分（逗号、顿号、分号、句号）
+  var segments = s.split(/[，,、；;。]/);
+  for (var si = 0; si < segments.length; si++) {
+    var seg = segments[si];
+    if (!seg) continue;
+    
+    // 查找数字+单位的组合
+    var matches = seg.match(/(\d+(?:\.\d+)?)\s*(年|个月|月|个季度|季度|天|日)/g);
+    if (matches) {
+      for (var mi = 0; mi < matches.length; mi++) {
+        var m = matches[mi];
+        var numMatch = m.match(/(\d+(?:\.\d+)?)/);
+        if (!numMatch) continue;
+        var val = parseFloat(numMatch[1]);
+        
+        // 单位换算成年
+        if (m.indexOf('个月') > -1 || m.indexOf('月') > -1) {
+          val = val / 12;
+        } else if (m.indexOf('个季度') > -1 || m.indexOf('季度') > -1) {
+          val = val / 4;
+        } else if (m.indexOf('天') > -1 || m.indexOf('日') > -1) {
+          val = val / 365;
+        }
+        
+        if (val > 0) {
+          allTerms.push({ seg: seg, val: val });
+        }
+      }
+    }
+  }
+  
+  // 如果找到了期限
+  if (allTerms.length > 0) {
+    // 优先级：优先提取"贷款期限"、"单笔业务"相关的
+    var loanTerms = [];
+    for (var ti = 0; ti < allTerms.length; ti++) {
+      var t = allTerms[ti];
+      var segText = t.seg;
+      // 明确提到"贷款期限"或"单笔业务"或"业务期限"的优先
+      if (segText.indexOf('贷款期限') > -1 || segText.indexOf('单笔') > -1 || 
+          segText.indexOf('贷款业务期限') > -1 || segText.indexOf('业务期限') > -1) {
+        loanTerms.push(t.val);
+      }
+    }
+    
+    if (loanTerms.length > 0) {
+      var maxLoan = 0;
+      for (var li = 0; li < loanTerms.length; li++) {
+        if (loanTerms[li] > maxLoan) maxLoan = loanTerms[li];
+      }
+      return maxLoan;
+    }
+    
+    // 没有明确的贷款期限，取所有期限的最大值
+    var maxVal = 0;
+    for (var ai = 0; ai < allTerms.length; ai++) {
+      if (allTerms[ai].val > maxVal) maxVal = allTerms[ai].val;
+    }
+    return maxVal;
+  }
+  
+  // 兜底：尝试只找数字
+  var nums = s.match(/(\d+(?:\.\d+)?)/g);
+  if (nums) {
+    var hasYear = s.indexOf('年') > -1;
+    var hasMonth = s.indexOf('月') > -1;
+    var maxFallback = 0;
+    for (var ni = 0; ni < nums.length; ni++) {
+      var v = parseFloat(nums[ni]);
+      if (hasMonth && !hasYear) {
+        v = v / 12;
+      }
+      if (v > maxFallback) maxFallback = v;
+    }
+    if (maxFallback > 0) return maxFallback;
+  }
+  
+  return 99;
 }
 
 function parseRate(rateStr) {
