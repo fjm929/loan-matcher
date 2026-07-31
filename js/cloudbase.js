@@ -105,7 +105,7 @@ var CloudDB = {
     var priority = matchResult && matchResult.priority ? matchResult.priority : [];
     var backup = matchResult && matchResult.backup ? matchResult.backup : [];
 
-    var getNames = function(arr) {
+    var getProductNames = function(arr) {
       var result = [];
       for (var i = 0; i < arr.length; i++) {
         var name = arr[i]['产品名称'] || arr[i].name || '';
@@ -113,6 +113,38 @@ var CloudDB = {
       }
       return result;
     };
+
+    var getFullNames = function(arr) {
+      var result = [];
+      for (var i = 0; i < arr.length; i++) {
+        var bank = arr[i]['机构名称'] || arr[i].bank || '';
+        var product = arr[i]['产品名称'] || arr[i].name || '';
+        if (bank && product) {
+          result.push(bank + ' - ' + product);
+        } else if (product) {
+          result.push(product);
+        }
+      }
+      return result;
+    };
+
+    var getBanks = function(arr) {
+      var result = [];
+      for (var i = 0; i < arr.length; i++) {
+        var bank = arr[i]['机构名称'] || arr[i].bank || '';
+        if (bank && result.indexOf(bank) === -1) {
+          result.push(bank);
+        }
+      }
+      return result;
+    };
+
+    var priorityNames = getProductNames(priority);
+    var backupNames = getProductNames(backup);
+    var priorityFull = getFullNames(priority);
+    var backupFull = getFullNames(backup);
+    var priorityBanks = getBanks(priority);
+    var backupBanks = getBanks(backup);
 
     var data = {
       company_name: String(formData.company_name || ''),
@@ -125,10 +157,14 @@ var CloudDB = {
       guarantee_types: formData.guarantee_types || [],
       qualifications: formData.qualifications || [],
       is_tech: (formData.qualifications || []).indexOf('科技型企业资质') > -1 ? '是' : '否',
-      match_priority: getNames(priority),
-      match_backup: getNames(backup),
-      match_priority_count: getNames(priority).length,
-      match_backup_count: getNames(backup).length,
+      match_priority: priorityNames,
+      match_backup: backupNames,
+      match_priority_full: priorityFull,
+      match_backup_full: backupFull,
+      match_priority_banks: priorityBanks,
+      match_backup_banks: backupBanks,
+      match_priority_count: priorityNames.length,
+      match_backup_count: backupNames.length,
       ua: navigator.userAgent,
       submitted_at: new Date()
     };
