@@ -1,4 +1,4 @@
-// 腾讯云 CloudBase 数据存储模块（ES5 兼容，优化版）
+// 腾讯云 CloudBase 数据存储模块（ES5 兼容，修复版）
 // 环境 ID
 var ENV_ID = 'hsmqrym2026-d0g8umnymb4c96254';
 
@@ -8,7 +8,7 @@ var CloudDB = {
   auth: null,
   inited: false,
   loggedIn: false,
-  pendingOps: [],
+  loginTried: false,
 
   // 初始化
   init: function() {
@@ -18,9 +18,9 @@ var CloudDB = {
         console.warn('CloudBase SDK 未加载');
         return;
       }
+      // 不传 region，使用默认值
       var app = window.cloudbase.init({
-        env: ENV_ID,
-        region: 'ap-shanghai'
+        env: ENV_ID
       });
       this.app = app;
       this.auth = app.auth({ persistence: 'local' });
@@ -50,7 +50,7 @@ var CloudDB = {
     // 先检查是否已有登录状态
     try {
       var loginState = this.auth.getLoginState();
-      if (loginState) {
+      if (loginState && loginState.user) {
         this.loggedIn = true;
         console.log('已有登录状态');
         callback(true);
@@ -60,35 +60,51 @@ var CloudDB = {
       console.warn('检查登录状态失败:', e);
     }
 
-    // 尝试匿名登录
-    try {
-      this.auth.anonymousAuthProvider().signIn().then(function() {
-        self.loggedIn = true;
-        console.log('匿名登录成功');
-        callback(true);
-      }).catch(function(err) {
-        console.error('匿名登录失败:', err);
-        // 再试一次
-        self.auth.anonymousAuthProvider().signIn().then(function() {
-          self.loggedIn = true;
-          console.log('匿名登录重试成功');
-          callback(true);
-        }).catch(function(err2) {
-          console.error('匿名登录重试也失败:', err2);
-          callback(false);
-        });
-      });
-    } catch (e) {
-      console.error('登录异常:', e);
+    // 如果已经尝试过登录且失败了，不再重试
+    if (this.loginTried) {
       callback(false);
+      return;
     }
+    this.loginTried = true;
+
+    // 尝试匿名登录（最多重试2次）
+    var tryCount = 0;
+    var tryLogin = function() {
+      tryCount++;
+      try {
+        self.auth.anonymousAuthProvider().signIn().then(function(res) {
+          self.loggedIn = true;
+          console.log('匿名登录成功', res);
+          callback(true);
+        }).catch(function(err) {
+          console.warn('匿名登录失败 (第' + tryCount + '次):', err && err.message ? err.message : err);
+          if (tryCount < 2) {
+            setTimeout(tryLogin, 1000 * tryCount);
+          } else {
+            console.error('匿名登录最终失败');
+            callback(false);
+          }
+        });
+      } catch (e) {
+        console.error('登录异常:', e);
+        if (tryCount < 2) {
+          setTimeout(tryLogin, 1000 * tryCount);
+        } else {
+          callback(false);
+        }
+      }
+    };
+    tryLogin();
   },
 
   // 记录访问量
   addVisitor: function() {
     var self = this;
     this.ensureLogin(function(success) {
-      if (!success || !self.db) return;
+      if (!success || !self.db) {
+        console.warn('无法保存访问记录：未登录');
+        return;
+      }
 
       var data = {
         page: window.location.pathname,
@@ -114,7 +130,7 @@ var CloudDB = {
     var self = this;
     this.ensureLogin(function(success) {
       if (!success || !self.db) {
-        console.warn('未登录，无法保存数据');
+        console.warn('无法保存问卷数据：未登录');
         if (callback) callback(false);
         return;
       }
@@ -127,7 +143,6 @@ var CloudDB = {
       });
 
       var data = {
-        // 问卷数据
         company_name: formData.company_name || '',
         entity_type: formData.entity_type || '',
         industry: formData.industry || '',
@@ -138,12 +153,10 @@ var CloudDB = {
         guarantee_types: formData.guarantee_types || [],
         qualifications: formData.qualifications || [],
         is_tech: (formData.qualifications || []).indexOf('科技型企业资质') > -1 ? '是' : '否',
-        // 匹配结果
         match_priority: priorityNames,
         match_backup: backupNames,
         match_priority_count: priorityNames.length,
         match_backup_count: backupNames.length,
-        // 元数据
         ua: navigator.userAgent,
         submitted_at: new Date()
       };

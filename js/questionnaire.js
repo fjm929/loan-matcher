@@ -116,12 +116,6 @@ document.addEventListener('DOMContentLoaded', function() {
   renderAllOptions();
   bindInputEvents();
 
-  // 初始化 CloudBase（用于数据收集）
-  if (window.CloudDB) {
-    window.CloudDB.init();
-    window.CloudDB.signInAnonymously();
-  }
-
   // 恢复暂存数据
   var saved = Store.get('formData');
   if (saved) {
