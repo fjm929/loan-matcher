@@ -142,10 +142,6 @@ function renderSummary() {
         '<div class="summary-value">' + escapeHtml(formData.industry || '-') + '</div>' +
       '</div>' +
       '<div class="summary-item">' +
-        '<div class="summary-label">经营地点</div>' +
-        '<div class="summary-value">' + escapeHtml(formData.location || '-') + '</div>' +
-      '</div>' +
-      '<div class="summary-item">' +
         '<div class="summary-label">申请额度</div>' +
         '<div class="summary-value highlight">' + (formData.loan_amount || 0) + ' 万元</div>' +
       '</div>' +
@@ -156,10 +152,6 @@ function renderSummary() {
       '<div class="summary-item">' +
         '<div class="summary-label">担保方式</div>' +
         '<div class="summary-value">' + escapeHtml(guaranteeTypes || '-') + '</div>' +
-      '</div>' +
-      '<div class="summary-item">' +
-        '<div class="summary-label">征信状况</div>' +
-        '<div class="summary-value">' + escapeHtml(formData.credit_status || '-') + '</div>' +
       '</div>' +
     '</div>' +
     qualHtml +

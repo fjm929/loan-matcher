@@ -369,19 +369,7 @@ function filterLevel1(answers, products) {
       // 简化处理
     }
 
-    // 3.1.2 经营属地校验
-    var location = answers.location;
-    if (location === '黄石市区') {
-      var countyBanks = ['大冶农商', '阳新农商', '大冶泰隆', '大冶中银富登'];
-      for (var cb = 0; cb < countyBanks.length; cb++) {
-        if (bank.indexOf(countyBanks[cb]) > -1) {
-          reject = '经营属地不符（' + bank + '为县域专属机构）';
-          break;
-        }
-      }
-    }
-
-    // 3.1.3 企业成立年限校验
+    // 3.1.2 企业成立年限校验
     var years = answers.years_established;
     var yearReqs = fullText.match(/(\d+)\s*年/g);
     if (yearReqs) {
@@ -398,35 +386,6 @@ function filterLevel1(answers, products) {
       var guarantee1 = getGuarantee(p);
       if (guarantee1.indexOf('信用') > -1 && guarantee1.indexOf('抵押') === -1 && guarantee1.indexOf('质押') === -1) {
         if (!reject) reject = '成立不足6个月，排除纯信用产品';
-      }
-    }
-
-    // 3.1.4 实际控制人年龄校验
-    var age = answers.owner_age;
-    var ageMentions = fullText.match(/(\d+)\s*周岁/g);
-    if (ageMentions) {
-      var ages = arrMap(ageMentions, function(a) { return parseInt(a); });
-      if (age < mathMinArr(ages)) {
-        reject = '实控人年龄不符合（产品要求' + mathMinArr(ages) + '周岁以上）';
-      }
-      if (age > 65 && mathMaxArr(ages) <= 65) {
-        var guarantee2 = getGuarantee(p);
-        if (guarantee2.indexOf('抵押') === -1 && guarantee2.indexOf('质押') === -1) {
-          reject = '实控人年龄超65周岁，排除无抵押产品';
-        }
-      }
-    }
-
-    if (age > 70) {
-      reject = '实控人年龄超过70周岁';
-    }
-
-    // 3.1.5 征信状况校验
-    var credit = answers.credit_status;
-    if (credit === '有当前不良') {
-      var guarantee3 = getGuarantee(p);
-      if (guarantee3.indexOf('抵押') === -1 && guarantee3.indexOf('质押') === -1 && guarantee3.indexOf('保证') === -1) {
-        reject = '有当前不良记录，排除纯信用产品';
       }
     }
 
@@ -657,15 +616,6 @@ function sortLevel5(answers, products) {
     var rate = parseRate(getRate(p));
     score += Math.max(0, parseInt(25 - rate * 2));
 
-    var location = answers.location;
-    var bank = getBank(p);
-    if (location === '大冶市' && (bank.indexOf('大冶') > -1 || bank.indexOf('泰隆') > -1)) {
-      score += 20;
-    }
-    if (location === '阳新县' && bank.indexOf('阳新') > -1) {
-      score += 20;
-    }
-
     p._matchScore = score;
   }
 
@@ -782,12 +732,6 @@ function getMatchReason(answers, product) {
   var term = parseTerm(getTerm(product));
   if (term >= answers.loan_term) {
     reasons.push('期限满足要求（最长' + parseInt(term) + '年）');
-  }
-
-  var location = answers.location;
-  var bank = getBank(product);
-  if ((location === '大冶市' && bank.indexOf('大冶') > -1) || (location === '阳新县' && bank.indexOf('阳新') > -1)) {
-    reasons.push('本地机构属地服务');
   }
 
   if (reasons.length === 0) {
