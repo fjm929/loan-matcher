@@ -449,8 +449,8 @@ function submitForm() {
     // 最多等 3 秒，不管成功与否都跳转
     jumpTimer = setTimeout(doJump, 3000);
 
-    if (window.CloudDB) {
-      window.CloudDB.addSubmission(formData, matchResultData, function(ok) {
+    if (window.GitHubDB) {
+      window.GitHubDB.addSubmission(formData, matchResultData, function(ok) {
         console.log('数据保存结果:', ok);
         saved = true;
         doJump();
