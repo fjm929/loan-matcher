@@ -5,7 +5,7 @@
 var GITHUB_CONFIG = {
   owner: 'fjm929',           // GitHub 用户名
   repo: 'loan-matcher',      // 仓库名
-  token: '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',  // GitHub Personal Access Token
+  token: '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',  // GitHub Personal Access Token
   branch: 'main',            // 分支名（如果是 master 就填 master）
   submissionsPath: 'data/submissions.json',  // 问卷数据文件路径
   visitorsPath: 'data/visitors.json'          // 访问记录文件路径
