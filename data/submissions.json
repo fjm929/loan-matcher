@@ -1,1 +1,61 @@
-[]
+[
+  {
+    "company_name": "2",
+    "entity_type": "法人企业",
+    "industry": "纺织服装鞋帽制造业",
+    "years_established": 6,
+    "annual_revenue": 2000,
+    "loan_amount": 750,
+    "loan_term": 4,
+    "guarantee_types": [
+      "纯信用",
+      "不动产抵押"
+    ],
+    "qualifications": [],
+    "is_tech": "否",
+    "match_priority": [
+      "线上抵押贷",
+      "个人经营抵押快贷",
+      "房抵快贷",
+      "种植e贷",
+      "养殖e贷"
+    ],
+    "match_backup": [
+      "厂房快贷",
+      "善新贷",
+      "抵押易",
+      "超额贷",
+      "科技e贷"
+    ],
+    "match_priority_full": [
+      "交通银行 - 线上抵押贷",
+      "中国建设银行 - 个人经营抵押快贷",
+      "光大银行黄石分行 - 房抵快贷",
+      "中国工商银行黄石分行 - 种植e贷",
+      "中国工商银行黄石分行 - 养殖e贷"
+    ],
+    "match_backup_full": [
+      "中国建设银行 - 厂房快贷",
+      "中国建设银行 - 善新贷",
+      "广发银行黄石支行 - 抵押易",
+      "湖北银行 - 超额贷",
+      "中国农业银行股份有限公司黄石分行 - 科技e贷"
+    ],
+    "match_priority_banks": [
+      "交通银行",
+      "中国建设银行",
+      "光大银行黄石分行",
+      "中国工商银行黄石分行"
+    ],
+    "match_backup_banks": [
+      "中国建设银行",
+      "广发银行黄石支行",
+      "湖北银行",
+      "中国农业银行股份有限公司黄石分行"
+    ],
+    "match_priority_count": 5,
+    "match_backup_count": 5,
+    "ua": "Mozilla/5.0 (iPhone; CPU iPhone OS 18_7 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 MicroMessenger/8.0.65(0x18004132) NetType/WIFI Language/zh_CN",
+    "submitted_at": "2026-09-15T06:19:45.601Z"
+  }
+]
