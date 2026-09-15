@@ -59,16 +59,15 @@
     </div>
   </div>
 
-  <script src="https://static.cloudbase.net/cloudbase-js-sdk/latest/cloudbase.full.js"></script>
   <script src="js/products.js"></script>
   <script src="js/matcher.js"></script>
   <script src="js/common.js"></script>
-  <script src="js/cloudbase.js"></script>
+  <script src="js/github-db.js"></script>
   <script>
-    // 页面加载时初始化 CloudBase 并记录访问量
+    // 页面加载时记录访问量
     document.addEventListener('DOMContentLoaded', function() {
-      if (window.CloudDB) {
-        window.CloudDB.addVisitor();
+      if (window.GitHubDB) {
+        window.GitHubDB.addVisitor();
       }
     });
 
