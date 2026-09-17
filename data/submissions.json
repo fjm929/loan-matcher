@@ -57,5 +57,67 @@
     "match_backup_count": 5,
     "ua": "Mozilla/5.0 (iPhone; CPU iPhone OS 18_7 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 MicroMessenger/8.0.65(0x18004132) NetType/WIFI Language/zh_CN",
     "submitted_at": "2026-09-15T06:19:45.601Z"
+  },
+  {
+    "company_name": "9.17",
+    "entity_type": "个体工商户",
+    "industry": "有色金属冶炼及压延加工业",
+    "years_established": 6,
+    "annual_revenue": 2000,
+    "loan_amount": 750,
+    "loan_term": 2,
+    "guarantee_types": [
+      "不动产抵押",
+      "纯信用",
+      "保证担保"
+    ],
+    "qualifications": [
+      "科技型企业资质"
+    ],
+    "is_tech": "是",
+    "match_priority": [
+      "商业价值信用贷",
+      "线上抵押贷",
+      "科创贷",
+      "小微速贷抵押贷",
+      "个人经营抵押快贷"
+    ],
+    "match_backup": [
+      "信用e贷、抵押e贷",
+      "兴速贷 (企业主专属)",
+      "兴速贷(优质科创企业专属)",
+      "房抵快贷",
+      "两农信用价值贷款"
+    ],
+    "match_priority_full": [
+      "湖北银行 - 商业价值信用贷",
+      "交通银行 - 线上抵押贷",
+      "中国银行 - 科创贷",
+      "中国银行 - 小微速贷抵押贷",
+      "中国建设银行 - 个人经营抵押快贷"
+    ],
+    "match_backup_full": [
+      "邮储银行黄石分行 - 信用e贷、抵押e贷",
+      "兴业银行黄石分行 - 兴速贷 (企业主专属)",
+      "兴业银行黄石分行 - 兴速贷(优质科创企业专属)",
+      "光大银行黄石分行 - 房抵快贷",
+      "汉口银行 - 两农信用价值贷款"
+    ],
+    "match_priority_banks": [
+      "湖北银行",
+      "交通银行",
+      "中国银行",
+      "中国建设银行"
+    ],
+    "match_backup_banks": [
+      "邮储银行黄石分行",
+      "兴业银行黄石分行",
+      "光大银行黄石分行",
+      "汉口银行"
+    ],
+    "match_priority_count": 5,
+    "match_backup_count": 5,
+    "ua": "Mozilla/5.0 (iPhone; CPU iPhone OS 18_7 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 MicroMessenger/8.0.65(0x18004132) NetType/WIFI Language/zh_CN",
+    "submitted_at": "2026-09-17T00:10:56.746Z"
   }
 ]
