@@ -119,5 +119,63 @@
     "match_backup_count": 5,
     "ua": "Mozilla/5.0 (iPhone; CPU iPhone OS 18_7 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 MicroMessenger/8.0.65(0x18004132) NetType/WIFI Language/zh_CN",
     "submitted_at": "2026-09-17T00:10:56.746Z"
+  },
+  {
+    "company_name": "10.10",
+    "entity_type": "个体工商户",
+    "industry": "农副产品加工业",
+    "years_established": 4,
+    "annual_revenue": 50,
+    "loan_amount": 50,
+    "loan_term": 2,
+    "guarantee_types": [
+      "纯信用",
+      "不动产抵押",
+      "保证担保"
+    ],
+    "qualifications": [],
+    "is_tech": "否",
+    "match_priority": [
+      "两农信用价值贷款",
+      "绿色贷款-专项低息",
+      "种植e贷",
+      "养殖e贷",
+      "新农快贷"
+    ],
+    "match_backup": [
+      "优业贷",
+      "301助业贷",
+      "流水e贷",
+      "数链e贷",
+      "线上抵押贷"
+    ],
+    "match_priority_full": [
+      "汉口银行 - 两农信用价值贷款",
+      "大冶泰隆 - 绿色贷款-专项低息",
+      "中国工商银行黄石分行 - 种植e贷",
+      "中国工商银行黄石分行 - 养殖e贷",
+      "中国工商银行黄石分行 - 新农快贷"
+    ],
+    "match_backup_full": [
+      "汉口银行 - 优业贷",
+      "汉口银行 - 301助业贷",
+      "湖北银行 - 流水e贷",
+      "湖北银行 - 数链e贷",
+      "交通银行 - 线上抵押贷"
+    ],
+    "match_priority_banks": [
+      "汉口银行",
+      "大冶泰隆",
+      "中国工商银行黄石分行"
+    ],
+    "match_backup_banks": [
+      "汉口银行",
+      "湖北银行",
+      "交通银行"
+    ],
+    "match_priority_count": 5,
+    "match_backup_count": 5,
+    "ua": "Mozilla/5.0 (iPhone; CPU iPhone OS 18_7 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 MicroMessenger/8.0.65(0x18004132) NetType/WIFI Language/zh_CN",
+    "submitted_at": "2026-10-10T10:23:49.562Z"
   }
 ]
