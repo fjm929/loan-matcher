@@ -70,5 +70,11 @@
     "url": "https://fjm929.github.io/loan-matcher/questionnaire.html",
     "ua": "Mozilla/5.0 (iPhone; CPU iPhone OS 18_7 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 MicroMessenger/8.0.65(0x18004132) NetType/WIFI Language/zh_CN",
     "timestamp": "2026-10-10T10:23:18.771Z"
+  },
+  {
+    "page": "/loan-matcher/",
+    "url": "https://fjm929.github.io/loan-matcher/",
+    "ua": "Mozilla/5.0 (Phone; OpenHarmony 7.0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 Safari/537.36 ArkWeb/6.0.0.46SP3 Mobile MicroMessenger/8.0.22.39(0xf3801627) Weixin NetType/WIFI Language/zh_CN MMWEBID/3564 MMWEBSDK/202609080003 XWEB/1320235",
+    "timestamp": "2026-10-23T08:20:20.386Z"
   }
 ]
