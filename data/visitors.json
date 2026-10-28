@@ -130,5 +130,11 @@
     "url": "https://fjm929.github.io/loan-matcher/questionnaire.html",
     "ua": "Mozilla/5.0 (Linux; Android 16; MAA-AN00 Build/HONORMAA-AN00; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/150.0.7871.189 Mobile Safari/537.36 XWEB/1500205 MMWEBSDK/20260902 MMWEBID/44 REV/51b08e9ce9bd5da33cb0edc1c6eaf0a501454964 MicroMessenger/8.0.79.3200(0x28004F37) WeChat/arm64 Weixin NetType/5G Language/zh_CN ABI/arm64",
     "timestamp": "2026-10-28T01:28:44.202Z"
+  },
+  {
+    "page": "/loan-matcher/",
+    "url": "https://fjm929.github.io/loan-matcher/",
+    "ua": "Mozilla/5.0 (Phone; OpenHarmony 7.0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 Safari/537.36 ArkWeb/6.0.0.46SP3 Mobile MicroMessenger/8.0.22.39(0xf3801627) Weixin NetType/WIFI Language/zh_CN MMWEBID/5817 MMWEBSDK/202609080003 XWEB/1320235",
+    "timestamp": "2026-10-28T01:43:32.157Z"
   }
 ]
