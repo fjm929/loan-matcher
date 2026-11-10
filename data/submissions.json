@@ -434,5 +434,66 @@
     "match_backup_count": 0,
     "ua": "Mozilla/5.0 (iPhone; CPU iPhone OS 18_7 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 MicroMessenger/8.0.65(0x18004132) NetType/4G Language/zh_CN",
     "submitted_at": "2026-11-10T01:11:53.249Z"
+  },
+  {
+    "company_name": "1",
+    "entity_type": "法人企业",
+    "industry": "仪器仪表行业",
+    "years_established": 6,
+    "annual_revenue": 750,
+    "loan_amount": 300,
+    "loan_term": 2,
+    "guarantee_types": [
+      "动产/权利质押",
+      "不动产抵押"
+    ],
+    "qualifications": [
+      "科技型企业资质"
+    ],
+    "is_tech": "是",
+    "match_priority": [
+      "磁湖创业担保贴息贷",
+      "线上抵押贷",
+      "科创贷",
+      "小微速贷抵押贷",
+      "私享通宝"
+    ],
+    "match_backup": [
+      "名特优新",
+      "个人经营抵押快贷",
+      "企易贷",
+      "信用e贷、抵押e贷",
+      "房抵快贷"
+    ],
+    "match_priority_full": [
+      "黄石农商银行 - 磁湖创业担保贴息贷",
+      "交通银行 - 线上抵押贷",
+      "中国银行 - 科创贷",
+      "中国银行 - 小微速贷抵押贷",
+      "中国银行 - 私享通宝"
+    ],
+    "match_backup_full": [
+      "中国银行 - 名特优新",
+      "中国建设银行 - 个人经营抵押快贷",
+      "大冶中银富登村镇银行 - 企易贷",
+      "邮储银行黄石分行 - 信用e贷、抵押e贷",
+      "光大银行黄石分行 - 房抵快贷"
+    ],
+    "match_priority_banks": [
+      "黄石农商银行",
+      "交通银行",
+      "中国银行"
+    ],
+    "match_backup_banks": [
+      "中国银行",
+      "中国建设银行",
+      "大冶中银富登村镇银行",
+      "邮储银行黄石分行",
+      "光大银行黄石分行"
+    ],
+    "match_priority_count": 5,
+    "match_backup_count": 5,
+    "ua": "Mozilla/5.0 (iPhone; CPU iPhone OS 18_7 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 MicroMessenger/8.0.65(0x18004132) NetType/4G Language/zh_CN",
+    "submitted_at": "2026-11-10T01:15:08.771Z"
   }
 ]
