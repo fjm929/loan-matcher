@@ -259,7 +259,8 @@ function getGuarantee(p) {
   var text = '';
   for (var key in p) {
     if (p.hasOwnProperty(key)) {
-      if (key.indexOf('担保') > -1) {
+      // 「授信类型」才是产品数据中记录担保方式的字段
+      if (key.indexOf('担保') > -1 || key.indexOf('授信类型') > -1 || key.indexOf('增信') > -1) {
         text += p[key] + ' ';
       }
     }
@@ -489,50 +490,116 @@ function filterLevel2(answers, products) {
   return products;
 }
 
-// 三级适配：担保方式对齐
+// 解析单个产品实际可接受的担保方式
+// 数据来源为「授信类型」，如：
+//   信用 / 纯信用、无抵押、无担保 / 抵押 / 信用，增信措施为房地产顺位抵押
+//   信用（超过300万元采用保证、抵押等增信措施）
+function parseProductGuarantee(p, userAmount) {
+  var text = getGuarantee(p);
+  var name = getProductName(p);
+  var t = String(text || '').replace(/\s/g, '');
+  var nm = String(name || '');
+
+  var r = {
+    credit: false,      // 可纯信用办理
+    pure: false,        // 明确纯信用（无抵押无担保）
+    mortgage: false,    // 需/可不动产抵押
+    pledge: false,      // 需/可动产权利质押
+    guarantee: false,   // 需/可保证担保
+    known: true         // 是否识别出担保方式
+  };
+
+  // 1) 明确纯信用：纯信用 / 无抵押 / 无担保
+  if (t.indexOf('纯信用') > -1 || t.indexOf('无抵押') > -1 || t.indexOf('无担保') > -1) {
+    r.credit = true;
+    r.pure = true;
+    return r;
+  }
+
+  r.credit = t.indexOf('信用') > -1;
+  r.mortgage = t.indexOf('抵押') > -1;
+  r.pledge = t.indexOf('质押') > -1 || t.indexOf('质物') > -1;
+  r.guarantee = t.indexOf('保证') > -1;
+
+  // 2) 额度条件式增信：额度未超阈值时可按信用方式办理
+  var tm = t.match(/超过(\d+(?:\.\d+)?)万元/);
+  if (tm) {
+    var threshold = parseFloat(tm[1]);
+    var amt = parseFloat(userAmount) || 0;
+    if (amt > 0 && amt <= threshold) {
+      r.mortgage = false;
+      r.pledge = false;
+      r.guarantee = false;
+      r.pure = true;
+    } else if (amt > threshold && (r.mortgage || r.pledge || t.indexOf('担保方式增信') > -1)) {
+      // 超出阈值必须增信，信用方式不再单独成立
+      r.credit = false;
+      r.guarantee = true;
+    }
+  }
+
+  // 3) 强制增信：「信用，增信措施为专利质押+房地产顺位抵押」
+  //    名义授信类型是信用，但实际依赖抵质押，纯信用无法办理
+  if (r.credit && (r.mortgage || r.pledge) && t.indexOf('增信措施') > -1) {
+    r.credit = false;
+  }
+
+  // 4) 文本未写明时用产品名称兜底
+  if (!r.credit && !r.mortgage && !r.pledge && !r.guarantee) {
+    if (nm.indexOf('抵押') > -1 || nm.indexOf('房抵') > -1) {
+      r.mortgage = true;
+    } else if (nm.indexOf('质押') > -1) {
+      r.pledge = true;
+    } else if (nm.indexOf('信用') > -1) {
+      r.credit = true;
+    } else {
+      r.known = false;
+    }
+  }
+
+  return r;
+}
+
+// 把解析结果转成用户问卷里的担保方式取值
+function toGuaranteeTypes(pg) {
+  var types = [];
+  if (pg.credit) types.push('纯信用');
+  if (pg.mortgage) types.push('不动产抵押');
+  if (pg.pledge) types.push('动产/权利质押');
+  if (pg.guarantee) types.push('保证担保');
+  return types;
+}
+
+// 三级适配：担保方式对齐（用户可接受的担保方式与产品要求必须有交集）
 function filterLevel3(answers, products) {
   var filtered = [];
   var userGuarantees = answers.guarantee_types || [];
+  var userAmount = answers.loan_amount;
+
+  // 选了「其他」视为不限担保方式
+  var acceptAll = userGuarantees.length === 0;
+  for (var ua = 0; ua < userGuarantees.length; ua++) {
+    if (userGuarantees[ua] === '其他') acceptAll = true;
+  }
 
   for (var i = 0; i < products.length; i++) {
     var p = products[i];
-    var guarantee = getGuarantee(p);
-    var features = getFeatures(p);
-    var fullText = guarantee + features;
+    var pg = parseProductGuarantee(p, userAmount);
+    var productTypes = toGuaranteeTypes(pg);
 
-    var productGuaranteeTypes = [];
+    p._guaranteeTypes = productTypes;
+    p._guaranteePure = pg.pure;
 
-    if ((fullText.indexOf('信用') > -1 && fullText.indexOf('无抵押') > -1) || fullText.indexOf('纯信用') > -1) {
-      productGuaranteeTypes.push('纯信用');
-    } else if (fullText.indexOf('信用') > -1) {
-      productGuaranteeTypes.push('纯信用');
-    }
-
-    if (fullText.indexOf('抵押') > -1) {
-      productGuaranteeTypes.push('不动产抵押');
-    }
-
-    if (fullText.indexOf('质押') > -1) {
-      productGuaranteeTypes.push('动产/权利质押');
-    }
-
-    if (fullText.indexOf('保证') > -1 || fullText.indexOf('担保') > -1) {
-      productGuaranteeTypes.push('保证担保');
-    }
-
-    if (productGuaranteeTypes.length === 0) {
+    // 无法识别担保方式的产品保留，避免误杀
+    if (!pg.known || productTypes.length === 0 || acceptAll) {
       filtered.push(p);
       continue;
     }
 
     var isMatch = false;
     for (var ug = 0; ug < userGuarantees.length; ug++) {
-      if (userGuarantees[ug] === '其他') {
-        isMatch = true;
-        break;
-      }
-      for (var pg = 0; pg < productGuaranteeTypes.length; pg++) {
-        if (userGuarantees[ug].indexOf(productGuaranteeTypes[pg]) > -1 || productGuaranteeTypes[pg].indexOf(userGuarantees[ug]) > -1) {
+      for (var pt = 0; pt < productTypes.length; pt++) {
+        if (userGuarantees[ug] === productTypes[pt]) {
           isMatch = true;
           break;
         }
@@ -578,12 +645,27 @@ function filterLevel4(answers, products) {
 // 五级排序：客户需求偏好优化排序
 function sortLevel5(answers, products) {
   var speed = answers.expected_speed || '无要求';
+  var userGuarantees = answers.guarantee_types || [];
+  var wantPureCredit = userGuarantees.indexOf('纯信用') > -1;
 
   for (var i = 0; i < products.length; i++) {
     var p = products[i];
     var score = 0;
 
     score += p._priorityBoost || 0;
+
+    // 担保方式契合度：用户只接受纯信用时，纯信用产品优先
+    if (wantPureCredit && p._guaranteeTypes) {
+      if (p._guaranteePure) {
+        score += 40;
+      } else if (p._guaranteeTypes.indexOf('纯信用') > -1) {
+        // 信用与抵押均可的产品，次于纯信用产品
+        score += 15;
+        if (p._guaranteeTypes.indexOf('不动产抵押') > -1 || p._guaranteeTypes.indexOf('动产/权利质押') > -1) {
+          score -= 10;
+        }
+      }
+    }
 
     var processStr = getProcess(p);
     var processDays = parseProcessDays(processStr);
