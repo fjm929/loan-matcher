@@ -410,5 +410,29 @@
     "match_backup_count": 5,
     "ua": "Mozilla/5.0 (iPhone; CPU iPhone OS 18_7 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 MicroMessenger/8.0.65(0x18004132) NetType/4G Language/zh_CN",
     "submitted_at": "2026-11-10T01:04:33.461Z"
+  },
+  {
+    "company_name": "某企业",
+    "entity_type": "法人企业",
+    "industry": "锯材加工及家具制造业",
+    "years_established": 6,
+    "annual_revenue": 4000,
+    "loan_amount": 2000,
+    "loan_term": 6,
+    "guarantee_types": [
+      "纯信用"
+    ],
+    "qualifications": [],
+    "is_tech": "否",
+    "match_priority": [],
+    "match_backup": [],
+    "match_priority_full": [],
+    "match_backup_full": [],
+    "match_priority_banks": [],
+    "match_backup_banks": [],
+    "match_priority_count": 0,
+    "match_backup_count": 0,
+    "ua": "Mozilla/5.0 (iPhone; CPU iPhone OS 18_7 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 MicroMessenger/8.0.65(0x18004132) NetType/4G Language/zh_CN",
+    "submitted_at": "2026-11-10T01:11:53.249Z"
   }
 ]
