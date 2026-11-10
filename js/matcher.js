@@ -519,7 +519,7 @@ function parseProductGuarantee(p, userAmount) {
   r.credit = t.indexOf('信用') > -1;
   r.mortgage = t.indexOf('抵押') > -1;
   r.pledge = t.indexOf('质押') > -1 || t.indexOf('质物') > -1;
-  r.guarantee = t.indexOf('保证') > -1;
+  r.guarantee = t.indexOf('保证') > -1 || t.indexOf('担保') > -1;
 
   // 2) 额度条件式增信：额度未超阈值时可按信用方式办理
   var tm = t.match(/超过(\d+(?:\.\d+)?)万元/);
@@ -563,7 +563,9 @@ function parseProductGuarantee(p, userAmount) {
 // 把解析结果转成用户问卷里的担保方式取值
 function toGuaranteeTypes(pg) {
   var types = [];
-  if (pg.credit) types.push('纯信用');
+  // 只要产品涉及不动产抵押或权利质押，就不再算作「纯信用」产品
+  // 例如「抵押、保证、信用等多种担保方式」实际办理时优先要求抵押物
+  if (pg.credit && !pg.mortgage && !pg.pledge) types.push('纯信用');
   if (pg.mortgage) types.push('不动产抵押');
   if (pg.pledge) types.push('动产/权利质押');
   if (pg.guarantee) types.push('保证担保');
